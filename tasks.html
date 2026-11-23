@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTBUD - Tasks</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Styles for the logout confirmation -->
+    <style>
+        .logout-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .logout-overlay.show {
+            display: flex;
+        }
+
+        .logout-box {
+            width: 100%;
+            max-width: 380px;
+            background-color: white;
+            border: 3px solid #0b1d07;
+            border-radius: 12px;
+            padding: 28px 26px 24px;
+            text-align: center;
+        }
+
+        .logout-box i {
+            font-size: 38px;
+            color: rgb(255, 174, 0);
+            margin-bottom: 12px;
+        }
+
+        .logout-box h2 {
+            font-size: 22px;
+            color: #15370D;
+            margin-bottom: 8px;
+        }
+
+        .logout-box p {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+
+        .logout-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .logout-actions button {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logout-yes {
+            background-color: #15370D;
+            color: white;
+            border: 2px solid #15370D;
+        }
+
+        .logout-yes:hover {
+            background-color: #6a914e;
+            border-color: #6a914e;
+        }
+
+        .logout-no {
+            background-color: white;
+            color: #15370D;
+            border: 2px solid #15370D;
+        }
+
+        .logout-no:hover {
+            background-color: #EBEBD8;
+        }
+
+        .logout-actions button:focus-visible {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="web-name">
+            <img src="PROJECTBUD LOGO.png" alt="ProjectBud Logo" class="sidebar-logo">
+            <div class="brand-title">ProjectBud</div>
+            <div class="brand-subtitle">PROJECT MANAGEMENT FOR BSIT 1A STUDENTS</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>DASHBOARD</span>
+            </a>
+
+            <a href="activities.html" class="nav-item">
+                <i class="fa-solid fa-folder"></i>
+                <span>ACTIVITIES</span>
+            </a>
+
+            <a href="tasks.html" class="nav-item active">
+                <i class="fa-solid fa-list-check"></i>
+                <span>TASKS</span>
+            </a>
+
+            <a href="schedule.html" class="nav-item">
+                <i class="fa-solid fa-calendar"></i>
+                <span>SCHEDULE</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="top-header">
+            <span class="user-info" id="userInfo"></span>
+            <a href="profile.html" class="profile-link">
+                <i class="fa-solid fa-circle-user"></i>
+            </a>
+        </header>
+
+        <main class="tasks-section" style="width: 100%; padding: 20px;">
+
+            <div class="card leader-only">
+                <h2>Assign a Task</h2>
+
+                <form id="taskForm">
+
+                    <label for="taskName">Task Name</label>
+                    <input
+                        type="text"
+                        id="taskName"
+                        placeholder="Enter task name"
+                        required
+                    >
+
+                    <label for="taskActivity">Activity</label>
+                    <select id="taskActivity" required>
+                        <option value="">Select an activity</option>
+                    </select>
+
+                    <label for="taskMember">Assign to Member</label>
+                    <select id="taskMember" required>
+                        <option value="">Select a member</option>
+                    </select>
+
+                    <label for="taskDeadline">Task Deadline</label>
+                    <input type="date" id="taskDeadline" required>
+
+                    <button type="submit" id="addTaskButton">
+                        Add Task
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Assigned Tasks</h2>
+                <div id="taskList">No tasks yet.</div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Logout confirmation -->
+    <div class="logout-overlay" id="logoutOverlay">
+        <div class="logout-box" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <h2 id="logoutTitle">Are you sure you want to log out?</h2>
+            <p>You will go back to the log in page.</p>
+            <div class="logout-actions">
+                <button type="button" class="logout-no" id="logoutNo">No, stay</button>
+                <button type="button" class="logout-yes" id="logoutYes">Yes, log out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the logged in user. No one logged in means back to the login page.
+        let currentUser = null;
+
+        try {
+            currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        } catch (e) {
+            currentUser = null;
+        }
+
+        if (!currentUser) {
+            window.location.href = "login.html";
+        }
+
+        const isLeader = currentUser && currentUser.role === "leader";
+
+        // Header shows "email (role)"
+        if (currentUser) {
+            document.getElementById("userInfo").textContent =
+                currentUser.email + " (" + (isLeader ? "leader" : "member") + ")";
+        }
+
+        // Members cannot see the "Assign a Task" box
+        if (!isLeader) {
+            document.querySelectorAll(".leader-only").forEach(function (el) {
+                el.style.display = "none";
+            });
+        }
+
+        // Logout confirmation
+        const logoutBtn = document.getElementById("logoutBtn");
+        const logoutOverlay = document.getElementById("logoutOverlay");
+        const logoutYes = document.getElementById("logoutYes");
+        const logoutNo = document.getElementById("logoutNo");
+
+        logoutBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            logoutOverlay.classList.add("show");
+            logoutNo.focus();
+        });
+
+        function closeLogout() {
+            logoutOverlay.classList.remove("show");
+            logoutBtn.focus();
+        }
+
+        logoutNo.addEventListener("click", closeLogout);
+
+        logoutOverlay.addEventListener("click", function (event) {
+            if (event.target === logoutOverlay) {
+                closeLogout();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && logoutOverlay.classList.contains("show")) {
+                closeLogout();
+            }
+        });
+
+        logoutYes.addEventListener("click", function () {
+            localStorage.removeItem("currentUser");
+            window.location.href = "login.html";
+        });
+
+        // Get saved tasks and activities
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        let activities = JSON.parse(localStorage.getItem("activities")) || [];
+
+        // Give older tasks a default status
+        tasks.forEach(function (task) {
+            if (!task.status) {
+                task.status = "In Progress";
+            }
+        });
+
+        // Get HTML elements
+        const taskForm = document.getElementById("taskForm");
+        const taskList = document.getElementById("taskList");
+        const taskActivity = document.getElementById("taskActivity");
+        const addTaskButton = document.getElementById("addTaskButton");
+        const taskMember = document.getElementById("taskMember");
+
+        // Save tasks
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        // Load activities into the dropdown
+        function loadActivities() {
+            activities = JSON.parse(localStorage.getItem("activities")) || [];
+
+            taskActivity.innerHTML = "";
+
+            if (activities.length === 0) {
+                const option = document.createElement("option");
+                option.value = "";
+                option.textContent = "No activities available";
+                taskActivity.appendChild(option);
+
+                addTaskButton.disabled = true;
+                return;
+            }
+
+            addTaskButton.disabled = false;
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Select an activity";
+            taskActivity.appendChild(defaultOption);
+
+            activities.forEach(function (activity) {
+                const option = document.createElement("option");
+                option.value = activity.name;
+                option.textContent = activity.name;
+
+                taskActivity.appendChild(option);
+            });
+        }
+
+        // Load the signed-up members into the "Assign to Member" dropdown
+        function loadMembers() {
+            let users = [];
+            try {
+                users = JSON.parse(localStorage.getItem("users")) || [];
+            } catch (e) {
+                users = [];
+            }
+
+            const members = users.filter(function (u) {
+                return u.role === "member";
+            });
+
+            taskMember.innerHTML = "";
+
+            if (members.length === 0) {
+                const none = document.createElement("option");
+                none.value = "";
+                none.textContent = "No members available";
+                taskMember.appendChild(none);
+
+                addTaskButton.disabled = true;
+                return;
+            }
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Select a member";
+            taskMember.appendChild(defaultOption);
+
+            members.forEach(function (m) {
+                const option = document.createElement("option");
+                option.value = m.email;
+                option.textContent = m.email;
+
+                taskMember.appendChild(option);
+            });
+        }
+
+        // Display tasks
+        function showTasks() {
+            taskList.innerHTML = "";
+
+            if (tasks.length === 0) {
+                taskList.textContent = "No tasks yet.";
+                return;
+            }
+
+            tasks.forEach(function (task, index) {
+                const item = document.createElement("div");
+
+                item.className = "task-item";
+
+                if (task.status === "Done") {
+                    item.classList.add("status-done");
+                } else {
+                    item.classList.add("status-progress");
+                }
+
+                // Task name
+                const name = document.createElement("h3");
+                name.textContent = task.name;
+
+                // Activity
+                const activity = document.createElement("p");
+                activity.textContent = "Activity: " + (task.activity || "None");
+
+                // Assigned member
+                const member = document.createElement("p");
+                member.textContent = "Assigned to: " + task.member;
+
+                // Deadline
+                const deadline = document.createElement("p");
+                deadline.textContent = "Deadline: " + task.deadline;
+
+                // Status selector
+                const statusContainer = document.createElement("div");
+                statusContainer.className = "task-status";
+
+                const statusLabel = document.createElement("label");
+                statusLabel.textContent = "Status:";
+
+                const statusSelect = document.createElement("select");
+
+                const progressOption = document.createElement("option");
+                progressOption.value = "In Progress";
+                progressOption.textContent = "In Progress";
+
+                const doneOption = document.createElement("option");
+                doneOption.value = "Done";
+                doneOption.textContent = "Done";
+
+                statusSelect.appendChild(progressOption);
+                statusSelect.appendChild(doneOption);
+
+                statusSelect.value = task.status;
+
+                // Update status when changed
+                statusSelect.addEventListener("change", function () {
+                    tasks[index].status = statusSelect.value;
+
+                    saveTasks();
+                    showTasks();
+                });
+
+                statusContainer.appendChild(statusLabel);
+                statusContainer.appendChild(statusSelect);
+
+                // Add everything to the task item
+                item.appendChild(name);
+                item.appendChild(activity);
+                item.appendChild(member);
+                item.appendChild(deadline);
+                item.appendChild(statusContainer);
+
+                // Only leaders get the Delete button
+                if (isLeader) {
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.className = "delete-btn";
+
+                    deleteButton.addEventListener("click", function () {
+                        deleteTask(index);
+                    });
+
+                    item.appendChild(deleteButton);
+                }
+
+                taskList.appendChild(item);
+            });
+        }
+
+        // Add a task (leaders only)
+        taskForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!isLeader) {
+                return;
+            }
+
+            const task = {
+                name: document.getElementById("taskName").value,
+                activity: taskActivity.value,
+                member: document.getElementById("taskMember").value,
+                deadline: document.getElementById("taskDeadline").value,
+                status: "In Progress"
+            };
+
+            tasks.push(task);
+
+            saveTasks();
+            showTasks();
+
+            taskForm.reset();
+        });
+
+        // Delete a task (leaders only)
+        function deleteTask(index) {
+            if (!isLeader) {
+                return;
+            }
+
+            tasks.splice(index, 1);
+
+            saveTasks();
+            showTasks();
+        }
+
+        // Display saved information
+        loadActivities();
+        loadMembers();
+        showTasks();
+    </script>
+
+</body>
+</html>

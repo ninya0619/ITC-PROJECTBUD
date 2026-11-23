@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTBUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Styles for the logout confirmation -->
+    <style>
+        .logout-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .logout-overlay.show {
+            display: flex;
+        }
+
+        .logout-box {
+            width: 100%;
+            max-width: 380px;
+            background-color: white;
+            border: 3px solid #0b1d07;
+            border-radius: 12px;
+            padding: 28px 26px 24px;
+            text-align: center;
+        }
+
+        .logout-box i {
+            font-size: 38px;
+            color: rgb(255, 174, 0);
+            margin-bottom: 12px;
+        }
+
+        .logout-box h2 {
+            font-size: 22px;
+            color: #15370D;
+            margin-bottom: 8px;
+        }
+
+        .logout-box p {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+
+        .logout-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .logout-actions button {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logout-yes {
+            background-color: #15370D;
+            color: white;
+            border: 2px solid #15370D;
+        }
+
+        .logout-yes:hover {
+            background-color: #6a914e;
+            border-color: #6a914e;
+        }
+
+        .logout-no {
+            background-color: white;
+            color: #15370D;
+            border: 2px solid #15370D;
+        }
+
+        .logout-no:hover {
+            background-color: #EBEBD8;
+        }
+
+        .logout-actions button:focus-visible {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            
+            <div class="web-name">
+                 <img src="PROJECTBUD LOGO.png" alt="ProjectBud Logo" class="sidebar-logo">
+           <div class="brand-title">ProjectBud</div>
+           <div class="brand-subtitle">PROJECT MANAGEMENT FOR BSIT 1A STUDENTS</div>
+        </div>
+            
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item" id="dash-nav"> 
+                    <i class="fa-solid fa-house"></i> <span>DASHBOARD</span>
+                </a>
+
+                <a href="activities.html" class="nav-item" id="act-nav">
+                    <i class="fa-solid fa-folder"></i> <span>ACTIVITIES</span>
+                </a>
+
+                <a href="tasks.html" class="nav-item" id="tasks-nav">
+                    <i class="fa-solid fa-list-check"></i> <span>TASKS</span>
+                </a>
+
+                <a href="schedule.html" class="nav-item active" id="sched-nav">
+                    <i class="fa-solid fa-calendar"></i> <span>SCHEDULE</span>
+                </a>
+            </nav>
+
+            <div class="sidebarfooter">
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+                </a>
+
+            </div>
+                
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <span class="user-info" id="userInfo"></span>
+                <a href="profile.html" class="profile-link">
+                    <i class="fa-solid fa-circle-user"></i>
+                </a>
+            </header>
+
+            <div class="container">
+                <header> 
+                    <div>
+                        <select id="month"></select>
+                        <select id="year"></select>
+                    </div>
+
+                    <div>
+                        <button onclick="changeMonth(-1)">&#10094;</button>
+                        <button onclick="goToday()">Today</button>
+                        <button onclick="changeMonth(1)">&#10095;</button>
+                    </div>
+                </header>
+
+                <div class="calendar">
+                    <div class="days">
+                        <div>Sun</div><div> Mon</div><div> Tue</div>
+                        <div> Wed</div><div> Thu</div><div> Fri</div><div> Sat</div>
+                    </div>
+                    <div class="dates" id="dates"></div>
+                </div>
+
+                <div class="events">
+                    <h3 id="selectedDate"></h3>
+                    <div id="taskItems"></div>
+                    <div class="entry">
+                        <input id="eventInput" placeholder="Add event or note" />
+                        <button class="add" onclick="addEvent()">Add</button>
+                    </div>
+                    <p id="empty"> Nothing planned for this day</p>
+                    <ul id="eventList"></ul>
+                </div>
+            </div>
+
+            <!-- Logout confirmation -->
+    <div class="logout-overlay" id="logoutOverlay">
+        <div class="logout-box" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <h2 id="logoutTitle">Are you sure you want to log out?</h2>
+            <p>You will go back to the log in page.</p>
+            <div class="logout-actions">
+                <button type="button" class="logout-no" id="logoutNo">No, stay</button>
+                <button type="button" class="logout-yes" id="logoutYes">Yes, log out</button>
+            </div>
+        </div>
+    </div>
+        </main>
+    </div>
+<script src="schedule.js"></script>
+<script src="userinfo.js"></script>
+
+
+</body>
+</html>

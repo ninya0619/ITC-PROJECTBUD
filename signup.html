@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTBUD - Sign Up</title>
+
+    <!-- Links for Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --green: #15370D;
+            --green-dark: #0b1d07;
+            --green-light: #6a914e;
+            --orange: rgb(255, 174, 0);
+            --beige: #EBEBD8;
+            --error: #b3261e;
+            --ok: #2e7d32;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--beige);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Two panels side by side */
+        .split {
+            display: flex;
+            width: 100%;
+            max-width: 880px;
+            min-height: 520px;
+            background-color: white;
+            border: 3px solid var(--green-dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Left panel: brand */
+        .panel-brand {
+            flex: 1;
+            background-color: var(--green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .panel-brand img {
+            width: 190px;
+            height: auto;
+            object-fit: contain;
+            background-color: white;
+            border-radius: 14px;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        .panel-brand .name {
+            color: var(--orange);
+            font-size: 30px;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .panel-brand .sub {
+            color: white;
+            font-size: 14px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            max-width: 220px;
+        }
+
+        /* Right panel: form */
+        .panel-form {
+            flex: 1;
+            padding: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-form h1 {
+            font-size: 30px;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .panel-form .intro {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .field {
+            margin-top: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 11px 12px;
+            font-size: 15px;
+            border: 1.5px solid #151515;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: 3px solid var(--orange);
+            outline-offset: 1px;
+        }
+
+        .field.has-error input {
+            border-color: var(--error);
+        }
+
+        .error-text {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .hint-text {
+            color: #555;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .pass-wrap {
+            position: relative;
+        }
+
+        .pass-wrap input {
+            padding-right: 44px;
+        }
+
+        .pass-toggle {
+            position: absolute;
+            top: 50%;
+            right: 6px;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border: none;
+            background: none;
+            color: var(--green);
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .pass-toggle:hover {
+            background-color: var(--beige);
+        }
+
+        /* Password strength bar */
+        .strength-bar {
+            height: 6px;
+            margin-top: 8px;
+            background-color: var(--beige);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0;
+            background-color: var(--error);
+            transition: width 0.2s, background-color 0.2s;
+        }
+
+        .form-alert {
+            display: none;
+            margin-top: 16px;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .form-alert.show {
+            display: block;
+        }
+
+        .form-alert.bad {
+            color: var(--error);
+            background-color: #fdeceb;
+            border: 1.5px solid var(--error);
+        }
+
+        .form-alert.good {
+            color: var(--ok);
+            background-color: #eaf5ea;
+            border: 1.5px solid var(--ok);
+        }
+
+        .btn-main {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            background-color: var(--green);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            background-color: var(--green-light);
+        }
+
+        .btn-main:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        .btn-main:focus-visible,
+        .pass-toggle:focus-visible,
+        .switch-text a:focus-visible {
+            outline: 3px solid var(--orange);
+            outline-offset: 2px;
+        }
+
+        .switch-text {
+            margin-top: 18px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .switch-text a {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* Mobile: panels stack */
+        @media (max-width: 720px) {
+            .split {
+                flex-direction: column;
+            }
+
+            .panel-brand {
+                padding: 28px 20px;
+            }
+
+            .panel-brand img {
+                width: 110px;
+            }
+
+            .panel-form {
+                padding: 30px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="split">
+
+        <section class="panel-brand">
+            <img src="PROJECTBUD LOGO.png" alt="ProjectBud Logo">
+            <div class="name">ProjectBud</div>
+            <div class="sub">PROJECT MANAGEMENT FOR BSIT 1A STUDENTS</div>
+        </section>
+
+        <section class="panel-form">
+            <h1>Create your account</h1>
+            <p class="intro">Join your group and start organizing.</p>
+
+            <form id="signupForm" novalidate>
+
+                <div class="field" id="nameField">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Juan Dela Cruz" autocomplete="name">
+                    <div class="error-text" id="nameError"></div>
+                </div>
+
+                <div class="field" id="emailField">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="juan@gmail.com" autocomplete="email">
+                    <div class="error-text" id="emailError"></div>
+                </div>
+
+                <div class="field" id="passField">
+                    <label for="signupPassword">Password</label>
+                    <div class="pass-wrap">
+                        <input type="password" id="signupPassword" placeholder="At least 6 characters" autocomplete="new-password">
+                        <button type="button" class="pass-toggle" id="togglePass" aria-label="Show password">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                    <div class="hint-text" id="strengthText">Use letters and numbers for a stronger password.</div>
+                    <div class="error-text" id="passError"></div>
+                </div>
+
+                <div class="field" id="confirmField">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Type your password again" autocomplete="new-password">
+                    <div class="error-text" id="confirmError"></div>
+                </div>
+
+                <div class="field">
+                    <label for="signupRole">I am a:</label>
+                    <select id="signupRole">
+                        <option value="member">Member</option>
+                        <option value="leader">Leader</option>
+                    </select>
+                </div>
+
+                <div class="form-alert" id="formAlert" role="alert"></div>
+
+                <button type="submit" class="btn-main" id="signupBtn">Sign Up</button>
+            </form>
+
+            <p class="switch-text">Already have an account? <a href="login.html">Log in</a></p>
+        </section>
+
+    </main>
+
+    <script>
+        const signupForm = document.getElementById("signupForm");
+        const nameInput = document.getElementById("fullName");
+        const emailInput = document.getElementById("signupEmail");
+        const passInput = document.getElementById("signupPassword");
+        const confirmInput = document.getElementById("confirmPassword");
+        const roleInput = document.getElementById("signupRole");
+        const formAlert = document.getElementById("formAlert");
+        const signupBtn = document.getElementById("signupBtn");
+        const strengthFill = document.getElementById("strengthFill");
+        const strengthText = document.getElementById("strengthText");
+
+        // Show or hide the password
+        document.getElementById("togglePass").addEventListener("click", function () {
+            const icon = this.querySelector("i");
+            const hidden = passInput.type === "password";
+
+            passInput.type = hidden ? "text" : "password";
+            confirmInput.type = hidden ? "text" : "password";
+            icon.className = hidden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+            this.setAttribute("aria-label", hidden ? "Hide password" : "Show password");
+        });
+
+        // Show or clear an error under one field
+        function setError(fieldId, errorId, message) {
+            document.getElementById(fieldId).classList.toggle("has-error", message !== "");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        // Show a message above the button
+        function showAlert(message, type) {
+            formAlert.textContent = message;
+            formAlert.className = "form-alert show " + type;
+        }
+
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem("users")) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Rate the password while the person types
+        passInput.addEventListener("input", function () {
+            const value = passInput.value;
+            let score = 0;
+
+            if (value.length >= 6) score++;
+            if (value.length >= 10) score++;
+            if (/[a-zA-Z]/.test(value) && /[0-9]/.test(value)) score++;
+            if (/[^a-zA-Z0-9]/.test(value)) score++;
+
+            const levels = [
+                { width: "0%", color: "#b3261e", text: "Use letters and numbers for a stronger password." },
+                { width: "25%", color: "#b3261e", text: "Weak password." },
+                { width: "50%", color: "#ffae00", text: "Okay password." },
+                { width: "75%", color: "#6a914e", text: "Good password." },
+                { width: "100%", color: "#2e7d32", text: "Strong password." }
+            ];
+
+            const level = value === "" ? levels[0] : levels[Math.max(score, 1)];
+
+            strengthFill.style.width = level.width;
+            strengthFill.style.backgroundColor = level.color;
+            strengthText.textContent = level.text;
+        });
+
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passInput.value;
+            const confirm = confirmInput.value;
+            const role = roleInput.value;
+            let valid = true;
+
+            formAlert.className = "form-alert";
+
+            // Name
+            if (name.length < 2) {
+                setError("nameField", "nameError", "Enter your full name.");
+                valid = false;
+            } else {
+                setError("nameField", "nameError", "");
+            }
+
+            // Email
+            if (email === "") {
+                setError("emailField", "emailError", "Enter your email address.");
+                valid = false;
+            } else if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+                setError("emailField", "emailError", "Use a valid @gmail.com address.");
+                valid = false;
+            } else {
+                setError("emailField", "emailError", "");
+            }
+
+            // Password
+            if (password.length < 6) {
+                setError("passField", "passError", "Password must have at least 6 characters.");
+                valid = false;
+            } else {
+                setError("passField", "passError", "");
+            }
+
+            // Confirm password
+            if (confirm !== password) {
+                setError("confirmField", "confirmError", "Passwords do not match.");
+                valid = false;
+            } else {
+                setError("confirmField", "confirmError", "");
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            // Make sure the email is not used yet
+            const users = getUsers();
+            const taken = users.some(function (u) {
+                return u.email === email;
+            });
+
+            if (taken) {
+                setError("emailField", "emailError", "This email already has an account. Log in instead.");
+                return;
+            }
+
+            // Save the new account
+            users.push({
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            });
+
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // Tell the person, then send them to the login page
+            signupBtn.disabled = true;
+            showAlert("Account created! Taking you to the log in page...", "good");
+
+            setTimeout(function () {
+                window.location.href = "login.html";
+            }, 1500);
+        });
+    </script>
+
+</body>
+</html>

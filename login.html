@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTBUD - Log In</title>
+
+    <!-- Links for Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --green: #15370D;
+            --green-dark: #0b1d07;
+            --green-light: #6a914e;
+            --orange: rgb(255, 174, 0);
+            --beige: #EBEBD8;
+            --error: #b3261e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--beige);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Two panels side by side */
+        .split {
+            display: flex;
+            width: 100%;
+            max-width: 880px;
+            min-height: 520px;
+            background-color: white;
+            border: 3px solid var(--green-dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Left panel: brand */
+        .panel-brand {
+            flex: 1;
+            background-color: var(--green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .panel-brand img {
+            width: 190px;
+            height: auto;
+            object-fit: contain;
+            background-color: white;
+            border-radius: 14px;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        .panel-brand .name {
+            color: var(--orange);
+            font-size: 30px;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .panel-brand .sub {
+            color: white;
+            font-size: 14px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            max-width: 220px;
+        }
+
+        /* Right panel: form */
+        .panel-form {
+            flex: 1;
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-form h1 {
+            font-size: 30px;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .panel-form .intro {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .field {
+            margin-top: 16px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 11px 12px;
+            font-size: 15px;
+            border: 1.5px solid #151515;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: 3px solid var(--orange);
+            outline-offset: 1px;
+        }
+
+        .field.has-error input {
+            border-color: var(--error);
+        }
+
+        .error-text {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .pass-wrap {
+            position: relative;
+        }
+
+        .pass-wrap input {
+            padding-right: 44px;
+        }
+
+        .pass-toggle {
+            position: absolute;
+            top: 50%;
+            right: 6px;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border: none;
+            background: none;
+            color: var(--green);
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .pass-toggle:hover {
+            background-color: var(--beige);
+        }
+
+        .form-alert {
+            display: none;
+            margin-top: 18px;
+            padding: 10px 12px;
+            font-size: 14px;
+            color: var(--error);
+            background-color: #fdeceb;
+            border: 1.5px solid var(--error);
+            border-radius: 8px;
+        }
+
+        .form-alert.show {
+            display: block;
+        }
+
+        .btn-main {
+            width: 100%;
+            margin-top: 26px;
+            padding: 13px;
+            background-color: var(--green);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            background-color: var(--green-light);
+        }
+
+        .btn-main:focus-visible,
+        .pass-toggle:focus-visible,
+        .switch-text a:focus-visible {
+            outline: 3px solid var(--orange);
+            outline-offset: 2px;
+        }
+
+        .switch-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .switch-text a {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* Mobile: panels stack */
+        @media (max-width: 720px) {
+            .split {
+                flex-direction: column;
+            }
+
+            .panel-brand {
+                padding: 28px 20px;
+            }
+
+            .panel-brand img {
+                width: 110px;
+            }
+
+            .panel-form {
+                padding: 30px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="split">
+
+        <section class="panel-brand">
+            <img src="PROJECTBUD LOGO.png" alt="ProjectBud Logo">
+            <div class="name">ProjectBud</div>
+            <div class="sub">PROJECT MANAGEMENT FOR BSIT 1A STUDENTS</div>
+        </section>
+
+        <section class="panel-form">
+            <h1>Welcome back</h1>
+            <p class="intro">Log in to your group project buddy.</p>
+
+            <form id="loginForm" novalidate>
+
+                <div class="field" id="emailField">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="juan@gmail.com" autocomplete="email">
+                    <div class="error-text" id="emailError"></div>
+                </div>
+
+                <div class="field" id="passField">
+                    <label for="loginPassword">Password</label>
+                    <div class="pass-wrap">
+                        <input type="password" id="loginPassword" placeholder="Enter Password" autocomplete="current-password">
+                        <button type="button" class="pass-toggle" id="togglePass" aria-label="Show password">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-text" id="passError"></div>
+                </div>
+
+                <div class="field">
+                    <label for="loginRole">I am a:</label>
+                    <select id="loginRole">
+                        <option value="member">Member</option>
+                        <option value="leader">Leader</option>
+                    </select>
+                </div>
+
+                <div class="form-alert" id="formAlert" role="alert"></div>
+
+                <button type="submit" class="btn-main">Log In</button>
+            </form>
+
+            <p class="switch-text">Don't have an account? <a href="signup.html">Sign up</a></p>
+        </section>
+
+    </main>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const emailInput = document.getElementById("loginEmail");
+        const passInput = document.getElementById("loginPassword");
+        const roleInput = document.getElementById("loginRole");
+        const formAlert = document.getElementById("formAlert");
+
+        // Show or hide the password
+        document.getElementById("togglePass").addEventListener("click", function () {
+            const icon = this.querySelector("i");
+            const hidden = passInput.type === "password";
+
+            passInput.type = hidden ? "text" : "password";
+            icon.className = hidden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+            this.setAttribute("aria-label", hidden ? "Hide password" : "Show password");
+        });
+
+        // Show or clear an error under one field
+        function setError(fieldId, errorId, message) {
+            document.getElementById(fieldId).classList.toggle("has-error", message !== "");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem("users")) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passInput.value;
+            const role = roleInput.value;
+            let valid = true;
+
+            formAlert.classList.remove("show");
+
+            // Check the email
+            if (email === "") {
+                setError("emailField", "emailError", "Enter your email address.");
+                valid = false;
+            } else if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+                setError("emailField", "emailError", "Use a valid @gmail.com address.");
+                valid = false;
+            } else {
+                setError("emailField", "emailError", "");
+            }
+
+            // Check the password
+            if (password === "") {
+                setError("passField", "passError", "Enter your password.");
+                valid = false;
+            } else {
+                setError("passField", "passError", "");
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            // Look for the account
+            const user = getUsers().find(function (u) {
+                return u.email === email && u.password === password && u.role === role;
+            });
+
+            if (!user) {
+                formAlert.textContent = "We couldn't find an account with that email, password and role. Check them or sign up.";
+                formAlert.classList.add("show");
+                return;
+            }
+
+            // Remember who is logged in, then open the dashboard
+            localStorage.setItem("currentUser", JSON.stringify({
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }));
+
+            window.location.href = "dashboard.html";
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTBUD - Profile</title>
+
+    <!-- Links for Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Link for css -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .pf-wrap {
+            width: 100%;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .pf-card {
+            background-color: white;
+            border: 1.5px solid #151515;
+            border-radius: 12px;
+            padding: 28px 26px;
+        }
+
+        /* Left card: who you are */
+        .pf-summary {
+            text-align: center;
+        }
+
+        .pf-avatar {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background-color: #15370D;
+            color: rgb(255, 174, 0);
+            font-size: 42px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #6a914e;
+        }
+
+        .pf-avatar.has-photo {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-size: 0;
+        }
+
+        .pf-photo-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .pf-small {
+            padding: 7px 14px;
+            background-color: #15370D;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            border: 2px solid #15370D;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .pf-small:hover {
+            background-color: #6a914e;
+            border-color: #6a914e;
+        }
+
+        .pf-small.light {
+            background-color: white;
+            color: #15370D;
+        }
+
+        .pf-small.light:hover {
+            background-color: #EBEBD8;
+            border-color: #15370D;
+        }
+
+        .pf-small:focus-visible {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 2px;
+        }
+
+        .pf-summary h1 {
+            font-size: 24px;
+            color: #15370D;
+            word-break: break-word;
+        }
+
+        .pf-role {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 14px;
+            background-color: #EBEBD8;
+            color: #15370D;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        .pf-info {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1.5px solid #EBEBD8;
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .pf-info div {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .pf-info i {
+            width: 18px;
+            margin-top: 2px;
+            text-align: center;
+            color: #15370D;
+        }
+
+        /* Right side: forms */
+        .pf-forms {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pf-card h2 {
+            font-size: 20px;
+            color: #15370D;
+            margin-bottom: 4px;
+        }
+
+        .pf-card .pf-note {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .pf-field {
+            margin-top: 14px;
+        }
+
+        .pf-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #15370D;
+            margin-bottom: 6px;
+        }
+
+        .pf-field input {
+            width: 100%;
+            max-width: 420px;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1.5px solid #151515;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .pf-field input:read-only {
+            background-color: #f2f2ea;
+            color: #555;
+        }
+
+        .pf-field input:focus {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 1px;
+        }
+
+        .pf-field.has-error input {
+            border-color: #b3261e;
+        }
+
+        .pf-error {
+            color: #b3261e;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .pf-message {
+            display: none;
+            max-width: 420px;
+            margin-top: 14px;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .pf-message.show {
+            display: block;
+        }
+
+        .pf-message.good {
+            color: #2e7d32;
+            background-color: #eaf5ea;
+            border: 1.5px solid #2e7d32;
+        }
+
+        .pf-message.bad {
+            color: #b3261e;
+            background-color: #fdeceb;
+            border: 1.5px solid #b3261e;
+        }
+
+        .pf-btn {
+            margin-top: 18px;
+            padding: 11px 24px;
+            background-color: #15370D;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .pf-btn:hover {
+            background-color: #6a914e;
+        }
+
+        .pf-btn:focus-visible {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 2px;
+        }
+
+        .profile-link.current {
+            color: #6a914e;
+        }
+
+        @media (max-width: 900px) {
+            .pf-wrap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Logout confirmation */
+        .logout-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .logout-overlay.show {
+            display: flex;
+        }
+
+        .logout-box {
+            width: 100%;
+            max-width: 380px;
+            background-color: white;
+            border: 3px solid #0b1d07;
+            border-radius: 12px;
+            padding: 28px 26px 24px;
+            text-align: center;
+        }
+
+        .logout-box i {
+            font-size: 38px;
+            color: rgb(255, 174, 0);
+            margin-bottom: 12px;
+        }
+
+        .logout-box h2 {
+            font-size: 22px;
+            color: #15370D;
+            margin-bottom: 8px;
+        }
+
+        .logout-box p {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+
+        .logout-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .logout-actions button {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logout-yes {
+            background-color: #15370D;
+            color: white;
+            border: 2px solid #15370D;
+        }
+
+        .logout-yes:hover {
+            background-color: #6a914e;
+            border-color: #6a914e;
+        }
+
+        .logout-no {
+            background-color: white;
+            color: #15370D;
+            border: 2px solid #15370D;
+        }
+
+        .logout-no:hover {
+            background-color: #EBEBD8;
+        }
+
+        .logout-actions button:focus-visible {
+            outline: 3px solid rgb(255, 174, 0);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="web-name">
+            <img src="PROJECTBUD LOGO.png" alt="ProjectBud Logo" class="sidebar-logo">
+            <div class="brand-title">ProjectBud</div>
+            <div class="brand-subtitle">PROJECT MANAGEMENT FOR BSIT 1A STUDENTS</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item" id="dash-nav">
+                <i class="fa-solid fa-house"></i> <span>DASHBOARD</span>
+            </a>
+
+            <a href="activities.html" class="nav-item" id="act-nav">
+                <i class="fa-solid fa-folder"></i> <span>ACTIVITIES</span>
+            </a>
+
+            <a href="tasks.html" class="nav-item" id="tasks-nav">
+                <i class="fa-solid fa-list-check"></i> <span>TASKS</span>
+            </a>
+
+            <a href="schedule.html" class="nav-item" id="sched-nav">
+                <i class="fa-solid fa-calendar"></i> <span>SCHEDULE</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="top-header">
+            <span class="user-info" id="userInfo"></span>
+            <a href="profile.html" class="profile-link current" aria-label="Profile">
+                <i class="fa-solid fa-circle-user"></i>
+            </a>
+        </header>
+
+        <div class="pf-wrap">
+
+            <!-- Who you are -->
+            <section class="pf-card pf-summary">
+                <div class="pf-avatar" id="avatar">?</div>
+
+                <div class="pf-photo-actions">
+                    <button type="button" class="pf-small" id="changePhoto">
+                        <i class="fa-solid fa-camera"></i> Change photo
+                    </button>
+                    <button type="button" class="pf-small light" id="removePhoto">Remove</button>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" hidden>
+                <div class="pf-error" id="photoError" style="margin: -8px 0 14px;"></div>
+
+                <h1 id="showName">Your name</h1>
+                <span class="pf-role" id="showRole">Member</span>
+
+                <div class="pf-info">
+                    <div><i class="fa-solid fa-envelope"></i> <span id="showEmail"></span></div>
+                    <div><i class="fa-solid fa-user-group"></i> <span>BSIT 1A</span></div>
+                </div>
+            </section>
+
+            <div class="pf-forms">
+
+                <!-- Edit name -->
+                <section class="pf-card">
+                    <h2>Edit profile</h2>
+                    <p class="pf-note">Change the name your group sees.</p>
+
+                    <form id="nameForm" novalidate>
+                        <div class="pf-field" id="nameField">
+                            <label for="editName">Full name</label>
+                            <input type="text" id="editName" autocomplete="name">
+                            <div class="pf-error" id="nameError"></div>
+                        </div>
+
+                        <div class="pf-field">
+                            <label for="editEmail">Email address</label>
+                            <input type="email" id="editEmail" readonly>
+                        </div>
+
+                        <div class="pf-message" id="nameMessage" role="status"></div>
+                        <button type="submit" class="pf-btn">Save changes</button>
+                    </form>
+                </section>
+
+                <!-- Change password -->
+                <section class="pf-card">
+                    <h2>Change password</h2>
+                    <p class="pf-note">Use at least 6 characters.</p>
+
+                    <form id="passForm" novalidate>
+                        <div class="pf-field" id="oldField">
+                            <label for="oldPass">Current password</label>
+                            <input type="password" id="oldPass" autocomplete="current-password">
+                            <div class="pf-error" id="oldError"></div>
+                        </div>
+
+                        <div class="pf-field" id="newField">
+                            <label for="newPass">New password</label>
+                            <input type="password" id="newPass" autocomplete="new-password">
+                            <div class="pf-error" id="newError"></div>
+                        </div>
+
+                        <div class="pf-field" id="repeatField">
+                            <label for="repeatPass">Confirm new password</label>
+                            <input type="password" id="repeatPass" autocomplete="new-password">
+                            <div class="pf-error" id="repeatError"></div>
+                        </div>
+
+                        <div class="pf-message" id="passMessage" role="status"></div>
+                        <button type="submit" class="pf-btn">Update password</button>
+                    </form>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout confirmation -->
+    <div class="logout-overlay" id="logoutOverlay">
+        <div class="logout-box" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <h2 id="logoutTitle">Are you sure you want to log out?</h2>
+            <p>You will go back to the log in page.</p>
+            <div class="logout-actions">
+                <button type="button" class="logout-no" id="logoutNo">No, stay</button>
+                <button type="button" class="logout-yes" id="logoutYes">Yes, log out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the logged in user. No one logged in means back to the login page.
+        let currentUser = null;
+
+        try {
+            currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        } catch (e) {
+            currentUser = null;
+        }
+
+        if (!currentUser) {
+            window.location.href = "login.html";
+        }
+
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem("users")) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Show the user's info on the page
+        function showProfile() {
+            const name = currentUser.name || "Student";
+            const roleText = currentUser.role === "leader" ? "Leader" : "Member";
+
+            // Initials: first letter of the first two words
+            const initials = name.trim().split(/\s+/).slice(0, 2).map(function (word) {
+                return word.charAt(0).toUpperCase();
+            }).join("");
+
+            const avatar = document.getElementById("avatar");
+
+            if (currentUser.photo) {
+                avatar.classList.add("has-photo");
+                avatar.style.backgroundImage = "url(" + currentUser.photo + ")";
+                avatar.textContent = "";
+            } else {
+                avatar.classList.remove("has-photo");
+                avatar.style.backgroundImage = "";
+                avatar.textContent = initials || "?";
+            }
+
+            document.getElementById("removePhoto").style.display = currentUser.photo ? "" : "none";
+            document.getElementById("showName").textContent = name;
+            document.getElementById("showRole").textContent = roleText;
+            document.getElementById("showEmail").textContent = currentUser.email;
+            document.getElementById("editName").value = name;
+            document.getElementById("editEmail").value = currentUser.email;
+        }
+
+        function setError(fieldId, errorId, message) {
+            document.getElementById(fieldId).classList.toggle("has-error", message !== "");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        function showMessage(id, message, type) {
+            const box = document.getElementById(id);
+            box.textContent = message;
+            box.className = "pf-message show " + type;
+        }
+
+        function hideMessage(id) {
+            document.getElementById(id).className = "pf-message";
+        }
+
+        if (currentUser) {
+            // The photo is saved with the account, so load it
+            const savedAccount = getUsers().find(function (u) {
+                return u.email === currentUser.email;
+            });
+
+            if (savedAccount && savedAccount.photo) {
+                currentUser.photo = savedAccount.photo;
+            }
+
+            showProfile();
+        }
+
+        // Save or remove the profile picture
+        function savePhoto(photo) {
+            const users = getUsers();
+            const account = users.find(function (u) {
+                return u.email === currentUser.email;
+            });
+
+            try {
+                if (account) {
+                    if (photo) {
+                        account.photo = photo;
+                    } else {
+                        delete account.photo;
+                    }
+                    localStorage.setItem("users", JSON.stringify(users));
+                }
+
+                if (photo) {
+                    currentUser.photo = photo;
+                } else {
+                    delete currentUser.photo;
+                }
+
+                // The logged in user keeps the name, email and role only
+                localStorage.setItem("currentUser", JSON.stringify({
+                    name: currentUser.name,
+                    email: currentUser.email,
+                    role: currentUser.role
+                }));
+
+                document.getElementById("photoError").textContent = "";
+                showProfile();
+            } catch (e) {
+                document.getElementById("photoError").textContent = "The browser has no space left to save this picture.";
+            }
+        }
+
+        const photoInput = document.getElementById("photoInput");
+        const photoError = document.getElementById("photoError");
+
+        document.getElementById("changePhoto").addEventListener("click", function () {
+            photoInput.click();
+        });
+
+        document.getElementById("removePhoto").addEventListener("click", function () {
+            savePhoto("");
+        });
+
+        photoInput.addEventListener("change", function () {
+            const file = photoInput.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                photoError.textContent = "Please choose an image file.";
+                photoInput.value = "";
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                photoError.textContent = "Choose a picture smaller than 5 MB.";
+                photoInput.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const img = new Image();
+
+                img.onload = function () {
+                    // Crop to a square and shrink it so it fits in the browser's storage
+                    const size = 300;
+                    const side = Math.min(img.width, img.height);
+                    const canvas = document.createElement("canvas");
+
+                    canvas.width = size;
+                    canvas.height = size;
+
+                    canvas.getContext("2d").drawImage(
+                        img,
+                        (img.width - side) / 2, (img.height - side) / 2, side, side,
+                        0, 0, size, size
+                    );
+
+                    savePhoto(canvas.toDataURL("image/jpeg", 0.85));
+                };
+
+                img.onerror = function () {
+                    photoError.textContent = "We couldn't read that picture. Try another one.";
+                };
+
+                img.src = reader.result;
+            };
+
+            photoInput.value = "";
+            reader.readAsDataURL(file);
+        });
+
+        // Save a new name
+        document.getElementById("nameForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            hideMessage("nameMessage");
+
+            const newName = document.getElementById("editName").value.trim();
+
+            if (newName.length < 2) {
+                setError("nameField", "nameError", "Enter your full name.");
+                return;
+            }
+
+            setError("nameField", "nameError", "");
+
+            // Update the saved account and the logged in user
+            const users = getUsers();
+            const account = users.find(function (u) {
+                return u.email === currentUser.email;
+            });
+
+            if (account) {
+                account.name = newName;
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+
+            currentUser.name = newName;
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+            showProfile();
+            showMessage("nameMessage", "Your name was updated.", "good");
+        });
+
+        // Change the password
+        document.getElementById("passForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            hideMessage("passMessage");
+
+            const oldPass = document.getElementById("oldPass").value;
+            const newPass = document.getElementById("newPass").value;
+            const repeatPass = document.getElementById("repeatPass").value;
+            let valid = true;
+
+            if (oldPass === "") {
+                setError("oldField", "oldError", "Enter your current password.");
+                valid = false;
+            } else {
+                setError("oldField", "oldError", "");
+            }
+
+            if (newPass.length < 6) {
+                setError("newField", "newError", "New password must have at least 6 characters.");
+                valid = false;
+            } else {
+                setError("newField", "newError", "");
+            }
+
+            if (repeatPass !== newPass) {
+                setError("repeatField", "repeatError", "Passwords do not match.");
+                valid = false;
+            } else {
+                setError("repeatField", "repeatError", "");
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            const users = getUsers();
+            const account = users.find(function (u) {
+                return u.email === currentUser.email;
+            });
+
+            if (!account) {
+                showMessage("passMessage", "We couldn't find your saved account. Log in again and retry.", "bad");
+                return;
+            }
+
+            if (account.password !== oldPass) {
+                setError("oldField", "oldError", "Current password is wrong.");
+                return;
+            }
+
+            account.password = newPass;
+            localStorage.setItem("users", JSON.stringify(users));
+
+            document.getElementById("passForm").reset();
+            showMessage("passMessage", "Your password was updated.", "good");
+        });
+
+        // Logout confirmation
+        const logoutBtn = document.getElementById("logoutBtn");
+        const logoutOverlay = document.getElementById("logoutOverlay");
+        const logoutYes = document.getElementById("logoutYes");
+        const logoutNo = document.getElementById("logoutNo");
+
+        logoutBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            logoutOverlay.classList.add("show");
+            logoutNo.focus();
+        });
+
+        function closeLogout() {
+            logoutOverlay.classList.remove("show");
+            logoutBtn.focus();
+        }
+
+        logoutNo.addEventListener("click", closeLogout);
+
+        logoutOverlay.addEventListener("click", function (event) {
+            if (event.target === logoutOverlay) {
+                closeLogout();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && logoutOverlay.classList.contains("show")) {
+                closeLogout();
+            }
+        });
+
+        logoutYes.addEventListener("click", function () {
+            localStorage.removeItem("currentUser");
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="userinfo.js"></script>
+</body>
+</html>

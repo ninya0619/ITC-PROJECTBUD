@@ -1,0 +1,633 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    display: flex;
+    height: 100vh;
+    background-color: #EBEBD8;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #15370D;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    flex-shrink: 1;
+}
+
+.web-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 15px 25px 15px;
+}
+
+.sidebar-logo {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.brand-title {
+    color: rgb(255, 174, 0);
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 6px;
+}
+
+.brand-subtitle {
+    color: white;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    max-width: 190px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0s;
+}
+
+.nav-item i {
+    width: 25px;
+    text-align: center;
+}
+
+.nav-item:hover {
+background-color: #6a914e;
+cursor: pointer;
+}
+
+.nav-item.active {
+    background-color: #6a914e;
+    font-size: bold;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+
+/* Dashboard Content Styles */
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.top-header {
+    background-color: white;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom: 1px solid white;
+}
+
+.profile-link {
+    font-size: 36px;
+    color: #15370D
+}
+
+.dashboard-section {
+    padding: 25px;
+    width: 100%;
+}
+
+.welcome-banner {
+    background-color: #15370D;
+    color: white;
+    padding: 36px 32px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    min-height: 150px;
+}
+
+.welcome-banner h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.welcome-banner p {
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 750px;
+    color: #e2e8f0;
+}
+
+body.login-page {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body.login-page {
+  font-family: Arial, sans-serif;
+  background-color: #eaf3e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.login-box {
+  background-color: white;
+  padding: 30px;
+  width: 320px;
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-box h1 {
+  text-align: center;
+  color: #15370D;
+  margin: 0;
+}
+
+.login-box .tagline {
+  text-align: center;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.login-box label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.login-box input,
+.login-box select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #15370D;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background-color: #0d2408;
+}
+
+#message {
+  text-align: center;
+  color: red;
+}
+
+/* Lets the leader-only boxes disappear for members */
+.hidden {
+    display: none !important;
+}
+
+/* The white boxes ("Add an Activity" and "Activities") */
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+    margin-bottom: 12px;
+    color: #15370D;
+}
+
+/* The form inside the "Add an Activity" box */
+.card input,
+.card select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.card form button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background-color: #15370D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.card form button:hover {
+    background-color: #0d2408;
+}
+
+/* One activity in the list (the green-striped box) */
+.activity-item {
+    background-color: #f3f8f1;
+    border-left: 5px solid #15370D;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.activity-item h3 {
+    margin-bottom: 5px;
+}
+
+.activity-item p {
+    margin: 3px 0;
+    color: #555;
+}
+
+/* The red Delete button (leader only) */
+.delete-btn {
+    margin-top: 8px;
+    padding: 5px 10px;
+    background-color: #d93025;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #b3261e;
+}
+
+/* =====================================================
+   FIXES: shared styles for Tasks, Schedule and Activities
+   ===================================================== */
+
+[hidden] {
+    display: none !important;
+}
+
+/* ---------- Header: "email (role)" next to the profile icon ---------- */
+.user-info,
+.welcome-user {
+    color: #15370D;
+    font-size: 16px;
+    margin-right: 14px;
+}
+
+.profile-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* ---------- Cards: keep the page from touching the edges ---------- */
+.card h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.card label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #15370D;
+}
+
+/* ---------- Tasks ---------- */
+.tasks-section {
+    padding: 25px;
+    width: 100%;
+}
+
+.task-item {
+    background-color: #f3f6ef;
+    border-left: 6px solid #6a914e;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+}
+
+.task-item.status-done {
+    border-left-color: #6a914e;
+}
+
+.task-item.status-progress {
+    border-left-color: rgb(255, 174, 0);
+}
+
+.task-item h3 {
+    color: #15370D;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.task-item p {
+    color: #666;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.task-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.task-status label {
+    margin: 0;
+    color: #666;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.task-status select {
+    width: auto;
+    margin: 0;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid #c9d2c0;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.task-item .delete-btn {
+    margin-top: 14px;
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #b3261e;
+    border: 2px solid #b3261e;
+    font-weight: bold;
+}
+
+.task-item .delete-btn:hover {
+    background-color: #b3261e;
+    color: #fff;
+}
+
+#addTaskButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---------- Activities ---------- */
+.activity-item {
+    padding: 16px 20px;
+    border-radius: 8px;
+}
+
+.activity-item h3 {
+    color: #15370D;
+    font-size: 20px;
+}
+
+.activity-item p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ---------- Schedule ---------- */
+.layout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.sidebarfooter {
+    margin-top: auto;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin: 25px;
+    box-shadow: 0 2px 8px rgba(21, 55, 13, 0.08);
+}
+
+.container > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.container > header > div {
+    display: flex;
+    gap: 8px;
+}
+
+.container select,
+.container input {
+    padding: 9px 12px;
+    border: 1px solid #c9d2c0;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+}
+
+.container header button,
+.container .add {
+    padding: 9px 16px;
+    background-color: #15370D;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container header button:hover,
+.container .add:hover {
+    background-color: #6a914e;
+}
+
+.calendar .days,
+.calendar .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.calendar .days {
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: 700;
+    color: #15370D;
+}
+
+.calendar .dates div {
+    padding: 14px 0;
+    text-align: center;
+    background-color: #f3f6ef;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.calendar .dates div:hover {
+    background-color: #dfe8d6;
+}
+
+.calendar .dates .other {
+    color: #aaa;
+    background-color: transparent;
+}
+
+.calendar .dates .today {
+    border-color: rgb(255, 174, 0);
+}
+
+/* Day with a task assigned by the leader */
+.calendar .dates .has-task {
+    background-color: #7bc65a;
+    color: #0b1d07;
+    font-weight: 700;
+}
+
+.calendar .dates .has-task:hover {
+    background-color: #66b146;
+}
+
+.calendar .dates .selected {
+    background-color: #15370D;
+    color: #fff;
+}
+
+.calendar .dates .has-task.selected {
+    background-color: #15370D;
+    color: #fff;
+    border-color: #7bc65a;
+}
+
+#taskItems h4 {
+    color: #15370D;
+    margin: 12px 0 8px;
+}
+
+.sched-task {
+    background-color: #e6f4de;
+    border-left: 6px solid #4caf50;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.sched-task p {
+    margin: 4px 0 0;
+    font-size: 14px;
+}
+
+.sched-task.done strong {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.sched-status {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #ffe9b3;
+    color: #7a5200;
+}
+
+.sched-task.done .sched-status {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+.events {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #e3e8dc;
+}
+
+.events h3 {
+    color: #15370D;
+    font-size: 22px;
+}
+
+.entry {
+    display: flex;
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.entry input {
+    flex: 1;
+}
+
+#empty {
+    color: #777;
+}
+
+#eventList {
+    list-style: none;
+}
+
+#eventList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f6ef;
+    border-left: 6px solid rgb(255, 174, 0);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+#eventList .delete {
+    background: none;
+    border: none;
+    color: #b3261e;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.card select {
+    background-color: #fff;
+}
